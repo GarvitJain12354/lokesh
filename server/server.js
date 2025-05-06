@@ -12,7 +12,7 @@ const app = express();
 
 // ✅ CORS Configuration (Correct Placement and Setup)
 const corsOptions = {
-  origin: ["https://tech-forcingfrnt.vercel.app", "http://localhost:517"],
+  origin: ["https://tech-forcingfrnt.vercel.app", "http://localhost:517","https://lokesh-nine.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
