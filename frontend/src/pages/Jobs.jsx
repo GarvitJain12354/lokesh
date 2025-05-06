@@ -5,21 +5,22 @@ import Navbar from "./Navbar";
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
-  const [error, setError] = useState(null);  // For handling errors
+  const [error, setError] = useState(null); // For handling errors
   const { isAuthenticated, user } = useContext(AuthContext); // Assuming `user` is part of the AuthContext
 
   // Get the token from localStorage or context if it's available
-  const token = localStorage.getItem("token") || (isAuthenticated ? user?.token : null);
+  const token =
+    localStorage.getItem("token") || (isAuthenticated ? user?.token : null);
 
   const fetchJobs = async () => {
-    setError(null);  // Reset error state on fetch attempt
+    setError(null); // Reset error state on fetch attempt
     try {
       if (!token) {
         setError("You need to be logged in to view the jobs.");
         return;
       }
 
-      const res = await axios.get("https://tech-forcinfbcknd.vercel.app/api/jobs", {
+      const res = await axios.get("https://lokesh-nine.vercel.app/api/jobs", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setJobs(res.data);
@@ -31,9 +32,12 @@ const Jobs = () => {
 
   const deleteJob = async (id) => {
     try {
-      await axios.delete(`https://tech-forcinfbcknd.vercel.app/api/jobs/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://tech-forcinfbcknd.vercel.app/api/jobs/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       fetchJobs(); // Refresh job listings after deletion
     } catch (err) {
       setError("Error deleting job. Please try again.");
@@ -48,7 +52,9 @@ const Jobs = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10 mt-4">Job Listings</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10 mt-4">
+        Job Listings
+      </h1>
 
       {/* Display error message if there's an issue */}
       {error && (
@@ -64,27 +70,47 @@ const Jobs = () => {
           </div>
         ) : (
           jobs.map((job) => (
-            <div key={job._id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-transform transform hover:scale-105">
-              <h2 className="text-xl font-medium text-gray-900 mb-2"> <strong>Title :</strong> {job.title}</h2>
-              <p className="text-gray-600 font-medium"> <strong>Company :</strong> {job.company}</p>
-              <p className="text-gray-600"> <strong>Location :</strong> {job.location}</p>
+            <div
+              key={job._id}
+              className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-transform transform hover:scale-105"
+            >
+              <h2 className="text-xl font-medium text-gray-900 mb-2">
+                {" "}
+                <strong>Title :</strong> {job.title}
+              </h2>
+              <p className="text-gray-600 font-medium">
+                {" "}
+                <strong>Company :</strong> {job.company}
+              </p>
+              <p className="text-gray-600">
+                {" "}
+                <strong>Location :</strong> {job.location}
+              </p>
 
               {/* Displaying additional job details */}
               {job.salary && (
-                <p className="mt-3 text-gray-700"><strong>Salary:</strong> {job.salary}</p>
+                <p className="mt-3 text-gray-700">
+                  <strong>Salary:</strong> {job.salary}
+                </p>
               )}
 
               {/* Ensure job.skills is an array before calling join() */}
               {job.skills && Array.isArray(job.skills) ? (
-                <p className="mt-3 text-gray-700"><strong>Skills Required:</strong> {job.skills.join(', ')}</p>
+                <p className="mt-3 text-gray-700">
+                  <strong>Skills Required:</strong> {job.skills.join(", ")}
+                </p>
               ) : (
                 job.skills && (
-                  <p className="mt-3 text-gray-700"><strong>Skills Required:</strong> {job.skills}</p>
+                  <p className="mt-3 text-gray-700">
+                    <strong>Skills Required:</strong> {job.skills}
+                  </p>
                 )
               )}
 
               {job.description && (
-                <p className="mt-3 text-gray-700"><strong>Description:</strong> {job.description}</p>
+                <p className="mt-3 text-gray-700">
+                  <strong>Description:</strong> {job.description}
+                </p>
               )}
 
               <div className="mt-4 flex justify-between items-center">
